@@ -72,8 +72,42 @@ public class tt {
             System.out.println(sb.toString());
             }
 
-//            public JSONObject buildRequestHeader(){
-//                JSONObject header = new JSONObject();
-//            }
+            public JSONObject buildRequestHeader(){
+                JSONObject header = new JSONObject();
+                header.put("locale", "en");
+                header.put("orgAlias", "6ea4cee8-ec77-4328-82a2-8172cd7d33e9");
+                header.put("secretKey", "c57ed22c264a42ddb8227b3dd7eef3df");
+                header.put("timestamp", getCurrentTimeStamp());
+                header.put("version", "4.9");
+                return header;
+            }
+
+
+            static String getCurrentTimeStamp(){
+                date now = new Date();
+                SimpleDateFormat PingIdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+                PingIdFormat.setTimeZone(TimeZone.getTimeZone("America/Boston"));
+                return PingIdFormat.format(now);
+            }
+
+            Public String buildRequest(JSONObject requestBody){
+            JSONObject header = buildRequestHeader();
+            JSONObject payload = new JSONObject();
+
+            payload.put("reqHeader", requestHeader);
+            payload.put("reqBody", requestBody);
+
+            JsonWebSignature jwt = new JsonWebSignature();
+            jwt.setAlgorithmHeaderValue(AlgorithmIdentifiers.HMAC_SHA256);
+            jwt.setHeader("orgAlias", "6ea4cee8-ec77-4328-82a2-8172cd7d33e9")
+            jwt.setHeader("token", "c57ed22c264a42ddb8227b3dd7eef3df");
+
+            jwt.setPayload(payload.toString());
+
+            HmacKey key = new HmacKey(Base64.decode());
+            jwt.setKey(key);
+
+
+    }
     }
 
